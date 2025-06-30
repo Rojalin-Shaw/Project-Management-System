@@ -3,6 +3,7 @@ package com.rojalin.backend.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,7 +23,7 @@ public class User {
    private String email;
    private String password;
    
-   @OneToMany(mappedBy = "assignee",cascade  == CascadeType.ALL)
+   @OneToMany(mappedBy = "assignee",cascade = CascadeType.ALL)
    private List<Issue>assignedIssues = new ArrayList<>();
    
    private int projectSize;
