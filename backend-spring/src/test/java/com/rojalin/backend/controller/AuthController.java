@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.rojalin.backend.config.JwtProvider;
 import com.rojalin.backend.model.User;
 import com.rojalin.backend.repository.UserRepository;
+import com.rojalin.backend.request.LoginRequest;
 import com.rojalin.backend.service.CustomUserDetailsImpl;
 
 import response.AuthResponse;
@@ -50,6 +51,7 @@ public class AuthController {
 		
 		UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
 		SecurityContextHolder.getContext().setAuthentication(authentication);
+		
 		String jwt = JwtProvider.generateToken(authentication);
 		
 		
@@ -60,5 +62,23 @@ public class AuthController {
 		return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
 	}
 	
-	public ResponseEntity<AuthResponse> signin(RequestBody)
+	@PostMapping("/signin")
+	public ResponseEntity<AuthResponse> signin(@RequestBody LoginRequest LoginRequest){
+		
+		String userName = LoginRequest.getEmail();
+	    String password	= LoginRequest.getPassword();
+	   
+	    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userName, password);
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+	    
+        String jwt = JwtProvider.generateToken(authentication);
+		
+		
+		AuthResponse res = new AuthResponse();
+		res.setMessage("signup success");
+		res.setJwt(jwt);
+		
+		return new ResponseEntity<>(res, HttpStatus.CREATED);
+	    
+	}
 }
